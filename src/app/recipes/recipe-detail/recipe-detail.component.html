@@ -19,9 +19,9 @@
         Manage Recipe <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><a (click)="onAddToShoppingList()">{{'add ingredients to shopping list' | titlecase}}</a></li>
-        <li><a href="#">{{'edit recipe' | titlecase}}</a></li>
-        <li><a href="#">{{'delete recipe' | titlecase}}</a></li>
+        <li><a class="text-capitalize" (click)="onAddToShoppingList()">add ingredients to shopping list</a></li>
+        <li><a class="text-capitalize" (click)="onEditRecipe()">edit recipe</a></li>
+        <li><a class="text-capitalize" (click)="onDeleteRecipe()">delete recipe</a></li>
       </ul>
     </div>
   </div>
