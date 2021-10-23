@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
 import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
 
 @Injectable()
 export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
 
   recipes: Recipe[] = [
     new Recipe('Sweet Potatoes', 
@@ -24,6 +26,14 @@ export class RecipeService {
         new Ingredient('Green Leaf Lettuce', 1),
         new Ingredient('Medium Red Onion', 0.5),
         new Ingredient('Dill Pick Slices', 2),
+      ]),
+    new Recipe('Sandwich', 
+      'Amazing sandwich.', 'https://assets.bonappetit.com/photos/59aec99643509c1d8b9371ee/6:9/w_3054,h_4581,c_limit/20170815%20MOB14283.jpg',
+      [
+        new Ingredient('Avocado', 1),
+        new Ingredient('Bread Slice', 2),
+        new Ingredient('Mozarella Cheese', 3),
+        new Ingredient('Lettuce Leaf', 3)
       ])
   ];
 
@@ -39,5 +49,20 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]): void {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }

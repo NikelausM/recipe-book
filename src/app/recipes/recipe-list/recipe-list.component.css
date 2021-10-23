@@ -1,0 +1,11 @@
+a {
+    cursor: pointer;
+}
+
+.img-responsive {
+    max-height: 50px;
+}
+
+.row {
+    padding-left: 15px;
+}
