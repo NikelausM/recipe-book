@@ -1,1 +1,0 @@
-{"ast":null,"code":"import _classCallCheck from \"/Users/nicmora/Documents/Training/Angular/angular-project/node_modules/@babel/runtime/helpers/esm/classCallCheck\";\nexport var Ingredient = function Ingredient(name, amount) {\n  _classCallCheck(this, Ingredient);\n\n  this.name = name;\n  this.amount = amount;\n};","map":null,"metadata":{},"sourceType":"module"}

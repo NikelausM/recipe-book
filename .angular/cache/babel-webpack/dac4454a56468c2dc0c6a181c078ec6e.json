@@ -1,1 +1,0 @@
-{"ast":null,"code":"// Following is the same as providing in app module:\n// @Injectable({\n//   providedIn: 'root'\n// })\nexport class LoggingService {\n  printLog(message) {\n    console.log(message);\n    console.log(this.lastLog);\n    this.lastLog = message;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}
