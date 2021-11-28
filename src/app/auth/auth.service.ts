@@ -1,10 +1,13 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 import { BehaviorSubject, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment"; // swapped by angular cli in production build
 import { User, UserDataAll } from "./user.model";
+import * as fromApp from "../store/app.reducer";
+import * as AuthActions from "./store/auth.actions";
 
 export interface AuthResponseData {
   kind: string;
@@ -22,13 +25,14 @@ export class AuthService {
   private static readonly WEB_API_KEY = environment.firebaseAPIKey;
   private static readonly USER_DATA_KEY = 'userData';
 
-  user = new BehaviorSubject<User>(null);
+  // user = new BehaviorSubject<User>(null);
 
   private tokenExpirationTimer: any;
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) { }
 
   private static authUrl(urlType: string): string {
@@ -91,7 +95,13 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.user.next(loadedUser);
+      // this.user.next(loadedUser);
+      this.store.dispatch(new AuthActions.Login({
+        email: loadedUser.email,
+        userId: loadedUser.id,
+        token: loadedUser.token,
+        expirationDate: loadedUser.tokenExpirationDate
+      }));
       const expirationDuration = expirationDate.getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
     }
@@ -99,7 +109,8 @@ export class AuthService {
 
   logout() {
     console.log("Logging out...");
-    this.user.next(null);
+    // this.user.next(null);
+    this.store.dispatch(new AuthActions.Logout());
     localStorage.removeItem(AuthService.USER_DATA_KEY);
 
     if (this.tokenExpirationTimer) {
@@ -148,8 +159,16 @@ export class AuthService {
   ) {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
-    this.user.next(user);
+    // this.user.next(user);
+    this.store.dispatch(new AuthActions.Login({
+      email: email,
+      userId: userId,
+      token: token,
+      expirationDate: expirationDate
+    }));
     this.autoLogout(expiresIn * 1000);
+    // side effect, so not directly connected to state
+    // can handle side effects with NgRx
     localStorage.setItem(AuthService.USER_DATA_KEY, JSON.stringify(user));
   }
 }
