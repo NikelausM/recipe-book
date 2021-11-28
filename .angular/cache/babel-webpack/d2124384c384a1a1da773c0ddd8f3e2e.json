@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const ADD_INGREDIENT = 'ADD_INGREDIENT';\nexport class AddIngredient {\n  constructor() {\n    this.type = ADD_INGREDIENT;\n  }\n\n}","map":null,"metadata":{},"sourceType":"module"}

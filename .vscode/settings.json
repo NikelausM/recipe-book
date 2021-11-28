@@ -1,11 +1,12 @@
 {
-  "html.format.wrapAttributes": "force-aligned",
   "[html]": {
-    "editor.tabSize": 2,
+    "editor.defaultFormatter": "vscode.html-language-features",
     "editor.detectIndentation": false,
+    "editor.tabSize": 2,
   },
   "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.detectIndentation": false,
     "editor.tabSize": 2,
-    "editor.detectIndentation": false
   }
 }
