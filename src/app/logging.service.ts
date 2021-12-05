@@ -1,4 +1,3 @@
-import { Injectable } from "@angular/core";
 
 // Following is the same as providing in app module:
 // @Injectable({

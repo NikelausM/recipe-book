@@ -2,11 +2,12 @@
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
     "editor.detectIndentation": false,
-    "editor.tabSize": 2,
+    "editor.tabSize": 2
   },
+  "typescript.preferences.quoteStyle": "single",
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
     "editor.detectIndentation": false,
-    "editor.tabSize": 2,
+    "editor.tabSize": 2
   }
 }

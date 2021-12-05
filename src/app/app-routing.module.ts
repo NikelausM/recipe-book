@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 // Lazy loading done with loadChildren.
 // Routing in modules themselves (or their routing files) must have empty base path because the path is included here (e.g., 'auth').

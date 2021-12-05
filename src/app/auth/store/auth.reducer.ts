@@ -1,12 +1,16 @@
-import { User } from "../user.model";
-import * as AuthActions from "./auth.actions";
+import { User } from '../user.model';
+import * as AuthActions from './auth.actions';
 
 export interface State {
   user: User;
+  authError: string;
+  loading: boolean;
 }
 
 const initialState: State = {
-  user: null
+  user: null,
+  authError: null,
+  loading: false
 };
 
 export const authReducer = (
@@ -14,7 +18,14 @@ export const authReducer = (
   action: AuthActions.AuthActions
 ) => {
   switch (action.type) {
-    case AuthActions.LOGIN:
+    case AuthActions.LOGIN_START:
+    case AuthActions.SIGNUP_START:
+      return {
+        ...state,
+        authError: null,
+        loading: true
+      } 
+    case AuthActions.AUTHENTICATE_SUCCESS:
       const user = new User(
         action.payload.email,
         action.payload.userId,
@@ -23,8 +34,22 @@ export const authReducer = (
       );
       return {
         ...state,
-        user: user
+        user: user,
+        authError: null,
+        loading: false
       };
+    case AuthActions.AUTHENTICATE_FAIL:
+      return {
+        ...state,
+        user: null,
+        authError: action.payload,
+        loading: false
+      }
+    case AuthActions.CLEAR_ERROR:
+      return {
+        ...state,
+        authError: null
+      }
     case AuthActions.LOGOUT:
       return {
         ...state,
