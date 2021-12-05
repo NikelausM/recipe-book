@@ -27,7 +27,8 @@ export class AuthenticateSuccess implements Action {
     email: string,
     userId: string,
     token: string,
-    expirationDate: Date
+    expirationDate: Date,
+    redirect: boolean
   }) { }
 }
 
@@ -49,6 +50,10 @@ export class ClearError implements Action {
 
 export class AutoLogin implements Action {
   readonly type = AUTO_LOGIN;
+
+  constructor() {
+    console.log("creating autologin");
+  }
 }
 
 export class Logout implements Action {

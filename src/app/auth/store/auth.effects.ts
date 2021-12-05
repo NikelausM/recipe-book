@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
-import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth.service';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -32,7 +31,8 @@ const handleAuthentication = (
     email: email,
     userId: userId,
     token: token,
-    expirationDate: expirationDate
+    expirationDate: expirationDate,
+    redirect: true
   });
 }
 
@@ -120,14 +120,16 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
-    tap(() => {
-      this.router.navigate(['/']);
+    tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
+      if (authSuccessAction.payload.redirect) {
+        this.router.navigate(['/']);
+      }
     })
   );
 
   @Effect()
   autoLogin = this.actions$.pipe(
-    ofType(AuthActions.AUTO_LOGIN),
+    ofType<AuthActions.AutoLogin>(AuthActions.AUTO_LOGIN),
     map(() => {
       const userData: UserDataAll = JSON.parse(localStorage.getItem(AuthService.USER_DATA_KEY));
 
@@ -146,15 +148,18 @@ export class AuthEffects {
       if (loadedUser.token) {
         const expirationDuration = expirationDate.getTime() - new Date().getTime();
         this.authService.setLogoutTimer(expirationDuration);
+        console.log("About to authenticate success");
         return new AuthActions.AuthenticateSuccess({
           email: loadedUser.email,
           userId: loadedUser.id,
           token: loadedUser.token,
-          expirationDate: loadedUser.tokenExpirationDate
+          expirationDate: loadedUser.tokenExpirationDate,
+          redirect: false
         });
       }
 
-      return new AuthActions.PlaceholderAction();
+      console.log("About to not authenticate fail");
+      return of(new AuthActions.PlaceholderAction());
     })
   )
 

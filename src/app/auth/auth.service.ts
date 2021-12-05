@@ -11,7 +11,6 @@ export class AuthService {
 
   private static readonly AUTH_BASE_URL = environment.firebaseAuthBaseURL;
   private static readonly WEB_API_KEY = environment.firebaseAPIKey;
-  // user = new BehaviorSubject<User>(null);
 
   private tokenExpirationTimer: any;
 
