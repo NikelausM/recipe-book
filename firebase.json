@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/my-first-app",
+    "public": "dist/recipe-book/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
